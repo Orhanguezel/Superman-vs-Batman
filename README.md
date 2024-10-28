@@ -1,70 +1,71 @@
-Bu alıştırma, nesne yöntemlerini (method) kullanarak pratik yapmayı amaçlar.
+# Battle Game Simulation: Superman vs Batman
 
-## Görev 1
+This project showcases a simple battle game simulation featuring two iconic characters, Superman and Batman. Each character has unique skills with specific damage values, and two different game modes allow for both targeted and random attacks.
 
-[task-1.js](task-1.js) dosyasını inceleyin.
+## Features
 
-`people` dizisini nesnelerle doldurmak için diğer dizileri kaynak veri olarak kullanarak bir döngü yazın. Ayrıca her nesne için 2 ek özellik oluşturun:
+### Characters and Skills
 
-- `fullName`: Ad ve soyadın birleştiği bir string
-- `introduce`: şu şekilde bir string döndüren bir method: `"Merhaba, benim adım Mark Shark, New York'ta yaşıyorum ve 18 yaşındayım."`
+Each character has:
+- `name`: The character's name.
+- `healty`: Their health level, representing remaining strength.
+- `attackSkillundDamege`: An object listing attack skills and their corresponding damage values.
+- `attack`: A method for attacking an opponent, either with a specified skill (Game 1) or a random skill (Game 2).
 
-`people` içindeki ilk kişi nesnesi şu şekilde görünmelidir:
+### Game Modes
 
-```javascript
-{
-    firstName: "Mark",
-    lastName: "Shark",
-    age: 18,
-    city: "New York",
-    fullName: "Mark Shark",
-    introduce: function() {...},
-}
+1. **Game Mode 1: Targeted Attack**
+    - Characters can choose a specific attack skill.
+    - The `attack` method checks if the selected skill exists; if so, it applies the damage to the opponent.
+    - If an invalid skill is chosen, an error message is returned.
+    
+    **Example:**
+    ```javascript
+    console.log(game[0].attack(game[1], "laser"));  // Superman attacks Batman with laser
+    console.log(game[1].attack(game[0], "batarang")); // Batman attacks Superman with batarang
+    ```
+
+2. **Game Mode 2: Random Attack**
+    - Characters attack each other with randomly chosen skills in a looped battle lasting up to 6 rounds.
+    - If a character's health reaches 0, they lose, and the game announces the winner.
+    - If neither character's health reaches 0 after 6 rounds, the game ends in a draw.
+
+    **Example:**
+    ```javascript
+    for (let i = 0; i < 6; i++) {
+        if (game2[0].healty <= 0 || game2[1].healty <= 0) break;
+        console.log(game2[0].attack(game2[1])); // Superman attacks Batman with a random skill
+        if (game2[1].healty <= 0) {
+            console.log(`${game2[1].name} has fallen! ${game2[0].name} wins the battle!`);
+            break;
+        }
+        console.log(game2[1].attack(game2[0])); // Batman attacks Superman with a random skill
+        if (game2[0].healty <= 0) {
+            console.log(`${game2[0].name} has fallen! ${game2[1].name} wins the battle!`);
+            break;
+        }
+    }
+    if (game2[0].healty > 0 && game2[1].healty > 0) {
+        console.log("The battle ended in a draw after 6 rounds!");
+    }
+    ```
+
+### Key Code Sections
+
+#### Character Initialization
+Each character has unique skills with predefined damage values, allowing for varied attacks.
+
+#### Attack Functionality
+- **Game 1**: The attack method in `game` accepts an opponent and a specific skill.
+- **Game 2**: The attack method in `game2` chooses a random skill for each attack, creating unpredictable battle outcomes.
+
+### Sample Output
+
+```plaintext
+Superman attacked Batman with laser, inflicting 20 damage. Batman's health is now 55.
+Batman attacked Superman with batarang, inflicting 16 damage. Superman's health is now 59.
+...
+Batman has fallen! Superman wins the battle!
 ```
 
-## Görev 2
-
-[task-2.js](task-2.js) dosyasını inceleyin.
-
-`person` nesnesine `greet` adlı bir method ekleyin. Bu method bir string girdi olarak almalı ve girdiğe göre özel bir karşılama mesajı döndürmelidir.
-
-```javascript
-// Mesajdaki karşılama sözcüklerinin ilk harfi büyük olmalıdır
-
-console.log(person.greet("hi")) // "Hi, my name is Tim"
-console.log(person.greet("hey")) // "Hey, my name is Tim"
-console.log(person.greet("hello")) // "Hello, my name is Tim"
-```
-
-## Görev 3
-
-[task-3.js](task-3.js) dosyasını inceleyin.
-
-Bir dövüş oyununda çalışıyorsunuz.
-
-İki karakter oyuncu nesnesi oluşturun ve bu özellikleri ekleyin:
-
-- `name`: Karakterin adı olarak bir string
-- `health`: Karakterin kalan sağlığını temsil eden bir sayı
-- `attackSkill`: Karakterin saldırıda kullandığı beceriyi temsil eden bir string
-- `attackDamage`: Saldırı becerisinin ne kadar hasar verdiğini temsil eden bir sayı
-
-Bir `attack` fonksiyonu oluşturun ve bu fonksiyonu her iki karaktere de method olarak ekleyin.
-
-`attack` methodu bir başka karakter nesnesini parametre olarak almalıdır. `attack` methodunu çalıştırdığınızda:
-
-- Saldırıya uğrayan karakterin `health` (sağlık) değeri, saldıran karakterin `attackDamage` (saldırı hasarı) kadar azalmalıdır.
-- Konsola aşağıdaki gibi bir mesaj yazdırmalıdır: "Ryu, Ken'e bir yumrukla saldırdı ve 16 hasar verdi. Ken'in sağlığı şimdi 8."
-
-Mesaj, saldıran ve saldırıya uğrayan karakterlere göre değişmelidir.
-
-Örneğin, `ryu` ve `ken` adında 2 karakterimiz varsa:
-
-```javascript
-ryu.attack(ken); // "Ryu, Ken'e bir yumrukla saldırdı ve 16 hasar verdi. Ken'in sağlığı şimdi 8."
-ken.attack(ryu); // "Ken, Ryu'ya bir uçan tekme ile saldırdı ve 24 hasar verdi. Ryu'nun sağlığı şimdi 2."
-```
-
-### Bonus
-
-Bir karakterin sağlığı kalmadığında durumu kontrol eden ek işlevler gibi ekstra özellikler eklemekten çekinmeyin.
+## Conclusion
